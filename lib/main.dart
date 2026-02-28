@@ -60,9 +60,8 @@ class PadiExpertApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const MainLayout(initialIndex: 0),
         '/diagnose': (context) => const MainLayout(initialIndex: 1),
-        '/map': (context) => const MainLayout(initialIndex: 2),
-        '/forum': (context) => const MainLayout(initialIndex: 3),
-        '/profile': (context) => const MainLayout(initialIndex: 4),
+        '/pustaka': (context) => const MainLayout(initialIndex: 2),
+        '/profile': (context) => const MainLayout(initialIndex: 3),
       },
     );
   }

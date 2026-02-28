@@ -3,8 +3,7 @@ import '../main.dart' show AppColors;
 
 import 'home_page.dart';
 import 'diagnose_page.dart';
-import 'map_page.dart';
-import 'forum_page.dart';
+import 'pustaka_page.dart';
 import 'settings_page.dart';
 
 class MainLayout extends StatefulWidget {
@@ -19,12 +18,13 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   late int _selectedIndex;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    DiagnosePage(),
-    MapPage(),
-    ForumPage(),
-    SettingsPage(),
+  List<Widget> get _widgetOptions => <Widget>[
+    HomePage(
+      onNavigateToDiagnosis: () => _onItemTapped(1),
+    ),
+    const DiagnosePage(),
+    const PustakaPage(),
+    const SettingsPage(),
   ];
 
   @override
@@ -76,14 +76,9 @@ class _MainLayoutState extends State<MainLayout> {
             label: 'Diagnosis',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            activeIcon: Icon(Icons.map),
-            label: 'Peta',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper_outlined),
-            activeIcon: Icon(Icons.newspaper),
-            label: 'Sosial',
+            icon: Icon(Icons.menu_book_outlined),
+            activeIcon: Icon(Icons.menu_book),
+            label: 'Pustaka',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),

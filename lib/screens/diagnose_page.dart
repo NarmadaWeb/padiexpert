@@ -11,22 +11,32 @@ class DiagnosePage extends StatefulWidget {
 }
 
 class _DiagnosePageState extends State<DiagnosePage> {
+  final Map<String, bool> isSymptomActive = {};
   final Map<String, double> cfValues = {};
 
   @override
   void initState() {
     super.initState();
     for (var symptom in ExpertSystemData.symptoms) {
-      cfValues[symptom.id] = 0.0;
+      isSymptomActive[symptom.id] = false;
+      cfValues[symptom.id] = 1.0; // Default CF 1.0 when active
     }
   }
 
   void _calculateResult() {
-    // Navigate to ResultPage and pass cfValues
+    final Map<String, double> finalCfValues = {};
+    for (var symptom in ExpertSystemData.symptoms) {
+      if (isSymptomActive[symptom.id] == true) {
+        finalCfValues[symptom.id] = (cfValues[symptom.id] ?? 1.0) * 100; // Convert 0.2-1.0 scale to 0-100 for existing logic
+      } else {
+        finalCfValues[symptom.id] = 0.0;
+      }
+    }
+    // Navigate to ResultPage and pass finalCfValues
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultPage(userCfValues: cfValues),
+        builder: (context) => ResultPage(userCfValues: finalCfValues),
       ),
     );
   }
@@ -210,75 +220,56 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'TIDAK YAKIN',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                  color: isDark ? Colors.grey[500] : Colors.grey[400],
-                ),
-              ),
-              const Text(
-                'SANGAT YAKIN',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                  color: AppColors.primary,
-                ),
+              Switch(
+                value: isSymptomActive[id] ?? false,
+                activeTrackColor: AppColors.primary.withValues(alpha: 0.5),
+                activeThumbColor: AppColors.primary,
+                onChanged: (bool value) {
+                  setState(() {
+                    isSymptomActive[id] = value;
+                    if (value && cfValues[id] == null) {
+                      cfValues[id] = 1.0;
+                    }
+                  });
+                },
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          SliderTheme(
-            data: SliderThemeData(
-              activeTrackColor: AppColors.primary,
-              inactiveTrackColor: isDark ? Colors.grey[700] : Colors.grey[200],
-              thumbColor: AppColors.primary,
-              overlayColor: AppColors.primary.withValues(alpha: 0.2),
-              trackHeight: 8,
-              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+          if (isSymptomActive[id] == true) ...[
+            const SizedBox(height: 16),
+            const Text(
+              'Tingkat Keyakinan:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
-            child: Slider(
-              value: cfValues[id]!,
-              min: 0,
-              max: 100,
-              onChanged: (val) {
-                setState(() {
-                  cfValues[id] = val;
-                });
-              },
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: cfValues[id]! > 0
-                  ? AppColors.primary.withValues(alpha: 0.2)
-                  : (isDark ? Colors.grey[800] : Colors.grey[100]),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              cfValues[id]! > 0
-                  ? 'CF: ${(cfValues[id]! / 100).toStringAsFixed(2)}'
-                  : 'Tidak Ada Gejala',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: cfValues[id]! > 0
-                    ? AppColors.primary
-                    : (isDark ? Colors.grey[400] : Colors.grey[400]),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [0.2, 0.4, 0.6, 0.8, 1.0].map((value) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: ChoiceChip(
+                      label: Text(value.toString()),
+                      selected: cfValues[id] == value,
+                      selectedColor: AppColors.primary,
+                      backgroundColor: isDark ? Colors.grey[700] : Colors.grey[200],
+                      labelStyle: TextStyle(
+                        color: cfValues[id] == value ? Colors.black : (isDark ? Colors.white : Colors.black),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onSelected: (bool selected) {
+                        if (selected) {
+                          setState(() {
+                            cfValues[id] = value;
+                          });
+                        }
+                      },
+                    ),
+                  );
+                }).toList(),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );
