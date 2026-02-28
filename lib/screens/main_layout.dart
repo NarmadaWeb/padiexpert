@@ -5,7 +5,7 @@ import 'home_page.dart';
 import 'diagnose_page.dart';
 import 'map_page.dart';
 import 'forum_page.dart';
-import 'profile_page.dart';
+import 'settings_page.dart';
 
 class MainLayout extends StatefulWidget {
   final int initialIndex;
@@ -24,7 +24,7 @@ class _MainLayoutState extends State<MainLayout> {
     DiagnosePage(),
     MapPage(),
     ForumPage(),
-    ProfilePage(),
+    SettingsPage(),
   ];
 
   @override
@@ -68,27 +68,27 @@ class _MainLayoutState extends State<MainLayout> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Beranda',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.medical_services_outlined),
             activeIcon: Icon(Icons.medical_services),
-            label: 'Diagnose',
+            label: 'Diagnosis',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map_outlined),
             activeIcon: Icon(Icons.map),
-            label: 'Map',
+            label: 'Peta',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper_outlined),
             activeIcon: Icon(Icons.newspaper),
-            label: 'Social',
+            label: 'Sosial',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: 'Pengaturan',
           ),
         ],
       ),
