@@ -19,7 +19,7 @@ class MapPage extends StatelessWidget {
           onPressed: () {},
         ),
         title: const Text(
-          'Outbreak Map',
+          'Peta Wabah',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -35,7 +35,7 @@ class MapPage extends StatelessWidget {
               color: Colors.grey,
               image: DecorationImage(
                 image: NetworkImage(
-                  'https://lh3.googleusercontent.com/aida-public/AB6AXuDS-hgxTGTk1anFZMB2RS3stIQU7rCLvfqDWqxV0hnCVmcJ69jKhuc3XOAxUxcpp3wI8CtG6EkVrdTz-0jOdwOB2-nhcDxh_SBmx6hXTgKqZlSZ2ZBUhp0mi3WLehKNUPiNFT8u7L393q_r6ICv0cUXQz1JnROYFKk7vnQyKmTkueS_UdEqRKsCJuzhjgZDFB9AmH0ymesCf9UrTnKRlbncpMaqhelkwoDEPE9kkziXpgf21UB13V31HbFzIglBb57b4lSD3kDPVXFo',
+                  'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -63,7 +63,7 @@ class MapPage extends StatelessWidget {
                     ],
                   ),
                   child: const Text(
-                    'Rice Blast (88%)',
+                    'Penyakit Blast (88%)',
                     style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                   ),
                 ),

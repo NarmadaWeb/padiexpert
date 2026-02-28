@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../main.dart' show AppColors;
+import '../data/expert_system_data.dart';
+import 'result_page.dart';
 
 class DiagnosePage extends StatefulWidget {
   const DiagnosePage({super.key});
@@ -9,7 +11,25 @@ class DiagnosePage extends StatefulWidget {
 }
 
 class _DiagnosePageState extends State<DiagnosePage> {
-  final Map<String, double> cfValues = {'s1': 75, 's2': 0, 's3': 40};
+  final Map<String, double> cfValues = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (var symptom in ExpertSystemData.symptoms) {
+      cfValues[symptom.id] = 0.0;
+    }
+  }
+
+  void _calculateResult() {
+    // Navigate to ResultPage and pass cfValues
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(userCfValues: cfValues),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +46,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
           onPressed: () {},
         ),
         title: const Text(
-          'Symptom Selection',
+          'Pilihan Gejala',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -34,7 +54,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
           TextButton(
             onPressed: () {},
             child: const Text(
-              'Library',
+              'Pustaka',
               style: TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
@@ -42,26 +62,6 @@ class _DiagnosePageState extends State<DiagnosePage> {
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(20),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildStepDot(true, false),
-                const SizedBox(width: 8),
-                _buildStepDot(true, false),
-                const SizedBox(width: 8),
-                _buildStepDot(true, true),
-                const SizedBox(width: 8),
-                _buildStepDot(false, false, isDark: isDark),
-                const SizedBox(width: 8),
-                _buildStepDot(false, false, isDark: isDark),
-              ],
-            ),
-          ),
-        ),
       ),
       body: Stack(
         children: [
@@ -69,41 +69,30 @@ class _DiagnosePageState extends State<DiagnosePage> {
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 100),
             children: [
               const Text(
-                'Step 3: Leaf Symptoms',
+                'Diagnosa Penyakit',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                'Identify symptoms and indicate your level of certainty (Certainty Factor).',
+                'Identifikasi gejala dan tentukan tingkat kepastian Anda (Certainty Factor).',
                 style: TextStyle(
                   fontSize: 16,
                   color: isDark ? Colors.grey[400] : Colors.grey[600],
                 ),
               ),
               const SizedBox(height: 24),
-              _buildSymptomCard(
-                's1',
-                'Yellowish Streaks',
-                'Vertical yellow or pale green lines appearing on leaf blades.',
-                Icons.eco,
-                isDark,
-              ),
-              const SizedBox(height: 16),
-              _buildSymptomCard(
-                's2',
-                'Wavy Leaf Edges',
-                'Margins show irregular drying or wavy appearance.',
-                Icons.water_drop,
-                isDark,
-              ),
-              const SizedBox(height: 16),
-              _buildSymptomCard(
-                's3',
-                'Brown Spots',
-                'Small, oval lesions with gray centers and brown borders.',
-                Icons.lens_blur,
-                isDark,
-              ),
+              ...ExpertSystemData.symptoms.map((symptom) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: _buildSymptomCard(
+                    symptom.id,
+                    symptom.title,
+                    symptom.description,
+                    Icons.eco,
+                    isDark,
+                  ),
+                );
+              }),
             ],
           ),
           Positioned(
@@ -139,12 +128,12 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   ),
                   elevation: 8,
                 ),
-                onPressed: () {},
+                onPressed: _calculateResult,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
-                      'Get Result',
+                      'Dapatkan Hasil',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -158,21 +147,6 @@ class _DiagnosePageState extends State<DiagnosePage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStepDot(bool active, bool current, {bool isDark = false}) {
-    return Container(
-      height: 6,
-      width: current ? 40 : 24,
-      decoration: BoxDecoration(
-        color: current
-            ? AppColors.primary
-            : (active
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : (isDark ? Colors.grey[700] : Colors.grey[300])),
-        borderRadius: BorderRadius.circular(3),
       ),
     );
   }
@@ -243,7 +217,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'NOT SURE',
+                'TIDAK YAKIN',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -252,7 +226,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
                 ),
               ),
               const Text(
-                'VERY CERTAIN',
+                'SANGAT YAKIN',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -295,7 +269,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
             child: Text(
               cfValues[id]! > 0
                   ? 'CF: ${(cfValues[id]! / 100).toStringAsFixed(2)}'
-                  : 'Not Observed',
+                  : 'Tidak Ada Gejala',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,

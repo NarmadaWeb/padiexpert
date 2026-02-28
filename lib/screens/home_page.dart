@@ -17,50 +17,13 @@ class HomePage extends StatelessWidget {
           backgroundColor: isDark
               ? AppColors.backgroundDark.withValues(alpha: 0.9)
               : AppColors.backgroundLight.withValues(alpha: 0.9),
-          title: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.3),
-                  ),
-                  color: AppColors.primary.withValues(alpha: 0.2),
-                ),
-                child: const ClipOval(
-                  child: Icon(Icons.person, color: AppColors.primary),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'WELCOME BACK',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                      color: isDark ? Colors.grey[400] : Colors.grey[500],
-                    ),
-                  ),
-                  const Text(
-                    'Farmer Juan',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+          title: const Text(
+            'Selamat Datang',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.notifications_outlined),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.settings_outlined),
               onPressed: () {},
             ),
           ],
@@ -78,7 +41,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.grey[800],
                   image: const DecorationImage(
                     image: NetworkImage(
-                      'https://lh3.googleusercontent.com/aida-public/AB6AXuC0c8RFpxihbXFZxgphMI36qb6jfPzNy12CDgZv_6SLr00ATeeW69j7ZtCz0UVS_hQMV7CoHUvomZNUo6mta0X5uZwuFMhsqCCK71zRP-T3B2PXUJLKMKv28KVHcYVlA3SXCEDLpKnkQfQZnFhiV2Qcw7BBo_mXxbr6vL0fxL8DnX92JZQfYnJq_eU_KcVklcBAUvJqvrE5DqjexDi30xziGpWKoZCJ6067Xa1_0Sdw28fM6JXmNoEiGxBM2h25p2g1jybWnDl_F4Lk',
+                      'https://images.unsplash.com/photo-1586771107584-568728ed9541?q=80&w=2070&auto=format&fit=crop',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -109,7 +72,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Protect Your Harvest',
+                        'Lindungi Panen Anda',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -128,7 +91,7 @@ class HomePage extends StatelessWidget {
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
-                                'Optimized for today\'s diagnosis',
+                                'Dioptimalkan untuk diagnosis hari ini',
                                 style: TextStyle(
                                   color: AppColors.primary,
                                   fontSize: 14,
@@ -149,7 +112,7 @@ class HomePage extends StatelessWidget {
               Row(
                 children: [
                   const Text(
-                    'Quick Actions',
+                    'Aksi Cepat',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 12),
@@ -167,8 +130,8 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 context,
-                title: 'Start Diagnosis',
-                subtitle: 'Certainty Factor powered detection',
+                title: 'Mulai Diagnosis',
+                subtitle: 'Deteksi didukung Certainty Factor',
                 icon: Icons.biotech,
                 isDark: isDark,
                 hasPrimaryArrow: true,
@@ -176,8 +139,8 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 context,
-                title: 'Weather & Calendar',
-                subtitle: 'Optimal planting & weather alerts',
+                title: 'Cuaca & Kalender',
+                subtitle: 'Peringatan cuaca & tanam optimal',
                 icon: Icons.wb_sunny,
                 isDark: isDark,
                 hasPrimaryArrow: false,
@@ -189,13 +152,13 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Recommended For You',
+                    'Rekomendasi Untuk Anda',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     children: [
                       const Text(
-                        'View all',
+                        'Lihat semua',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.bold,
@@ -332,7 +295,7 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             color: Colors.grey[300],
             child: Image.network(
-              'https://lh3.googleusercontent.com/aida-public/AB6AXuC5vg54yE1dUjqd0S1uQH59cJToZ-eroacr_GO_hxABNfDAPWxiwmAcsbXB7_K72yDN1BqCeQn3DTOu7gHjn3ynfq2YHzkbHi4BCyeWau07FbluI28hczGZwyUwrQNOwKi5wPYlkUSep-yP4M09UR3LYemDbigDFlYN6nqfiQurt4e89eAw4oPr_mmIdwap0OUnSqhemLWNppzJNrUkrnIBu1Ay2rwgdqPdVtVdlk5fDwPmmIeCcBUIOG8x6NLb_kYRFaEPOFcBLiIR',
+              'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=2000&auto=format&fit=crop',
               fit: BoxFit.cover,
             ),
           ),
@@ -351,7 +314,7 @@ class HomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Text(
-                    'DISEASE PREVENTION',
+                    'PENCEGAHAN PENYAKIT',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -362,14 +325,14 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Controlling Rice Blast in the Monsoon Season',
+                  'Mengendalikan Hama Wereng pada Musim Hujan',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '2 hours ago • 5 min read',
+                  '2 jam lalu • 5 mnt baca',
                   style: TextStyle(
                     fontSize: 12,
                     color: isDark ? Colors.grey[400] : Colors.grey[500],

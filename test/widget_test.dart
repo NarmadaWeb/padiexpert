@@ -23,26 +23,25 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 3));
 
     // Verify that the title on Home screen is present
-    expect(find.text('WELCOME BACK'), findsOneWidget);
-    expect(find.text('Farmer Juan'), findsOneWidget);
+    expect(find.text('Selamat Datang'), findsOneWidget);
 
-    // The "Diagnose" tab should exist in the bottom navigation bar
-    expect(find.text('Diagnose'), findsOneWidget);
+    // The "Diagnosis" tab should exist in the bottom navigation bar
+    expect(find.text('Diagnosis'), findsOneWidget);
 
-    // Tap the 'Diagnose' icon and trigger a frame.
-    await tester.tap(find.text('Diagnose'));
+    // Tap the 'Diagnosis' icon and trigger a frame.
+    await tester.tap(find.text('Diagnosis'));
     await tester.pumpAndSettle();
 
     // Verify that we are on the DiagnosePage
-    expect(find.text('Symptom Selection'), findsWidgets);
-    expect(find.text('Get Result'), findsOneWidget);
+    expect(find.text('Pilihan Gejala'), findsWidgets);
+    expect(find.text('Dapatkan Hasil'), findsOneWidget);
 
-    // Tap the 'Map' icon and trigger a frame.
-    await tester.tap(find.text('Map'));
+    // Tap the 'Peta' icon and trigger a frame.
+    await tester.tap(find.text('Peta'));
     await tester.pumpAndSettle();
 
     // Verify that we are on the MapPage
-    expect(find.text('Outbreak Map'), findsWidgets);
-    expect(find.text('Rice Blast (88%)'), findsOneWidget);
+    expect(find.text('Peta Wabah'), findsWidgets);
+    expect(find.text('Penyakit Blast (88%)'), findsOneWidget);
   });
 }
