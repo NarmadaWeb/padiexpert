@@ -7,27 +7,42 @@
 
 // import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:io';
 
 import 'package:app/main.dart';
 
 void main() {
-  testWidgets('PadiExpert app loads correctly smoke test', (WidgetTester tester) async {
+  testWidgets('PadiExpert app loads correctly with new multi-page UI', (WidgetTester tester) async {
+    // Need to provide a mocked HTTP client so network images don't fail tests
+    HttpOverrides.global = null;
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(const PadiExpertApp());
 
+    // Wait for the splash screen timer to finish
+    await tester.pumpAndSettle(const Duration(seconds: 3));
+
     // Verify that the title on Home screen is present
-    expect(find.text('PadiExpert'), findsWidgets);
-    expect(find.text('Selamat Datang, Petani!'), findsOneWidget);
+    expect(find.text('WELCOME BACK'), findsOneWidget);
+    expect(find.text('Farmer Juan'), findsOneWidget);
 
-    // The "Deteksi" tab should exist in the bottom navigation bar
-    expect(find.text('Deteksi'), findsOneWidget);
+    // The "Diagnose" tab should exist in the bottom navigation bar
+    expect(find.text('Diagnose'), findsOneWidget);
 
-    // Tap the 'Deteksi' icon and trigger a frame.
-    await tester.tap(find.text('Deteksi'));
+    // Tap the 'Diagnose' icon and trigger a frame.
+    await tester.tap(find.text('Diagnose'));
     await tester.pumpAndSettle();
 
-    // Verify that we are on the DetectionView
-    expect(find.text('Deteksi Penyakit Padi'), findsWidgets);
-    expect(find.text('Ambil Foto'), findsOneWidget);
+    // Verify that we are on the DiagnosePage
+    expect(find.text('Symptom Selection'), findsWidgets);
+    expect(find.text('Get Result'), findsOneWidget);
+
+    // Tap the 'Map' icon and trigger a frame.
+    await tester.tap(find.text('Map'));
+    await tester.pumpAndSettle();
+
+    // Verify that we are on the MapPage
+    expect(find.text('Outbreak Map'), findsWidgets);
+    expect(find.text('Rice Blast (88%)'), findsOneWidget);
   });
 }
