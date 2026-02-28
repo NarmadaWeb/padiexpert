@@ -16,7 +16,7 @@ class ForumPage extends StatelessWidget {
         elevation: 1,
         leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
         title: const Text(
-          'Community Forum',
+          'Forum Komunitas',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -74,7 +74,7 @@ class ForumPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '2 hours ago',
+                          '2 jam lalu',
                           style: TextStyle(
                             fontSize: 10,
                             color: Colors.grey[500],
@@ -86,14 +86,14 @@ class ForumPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  'CF tool gave 85% probability for Rice Blast. Any advice on the best fungicide for this region?',
+                  'Alat CF memberikan probabilitas 85% untuk Penyakit Blast. Ada saran tentang fungisida terbaik untuk daerah ini?',
                   style: TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 12),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuDFxZnHauuKbYsGdQ4q3u_ZCDBcJSi8-Ds4IrGHsbXzcBCuW6Eaaj89mPyy-1-j4L96kpf9Uua79dnI8IdXHT5rIg883ctBrwZeG_8hvcFLZE_teLQ2CEQUUqvEaKXVlSjHswiJn1cls7JLYJ0dCuQhbAn2yKRiCWZf1xfkbGERbohSw6dsOCzHuyjNb1AetO-jgGFpW64f0NVo-8BhXDKC5TooXdMXNCLnDh5bGNuMWC-TTtLVNAny5tzmpERtz-CVuS33LjIce-3b',
+                    'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=2000&auto=format&fit=crop',
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
