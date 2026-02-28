@@ -36,12 +36,11 @@ void main() {
     expect(find.text('Pilihan Gejala'), findsWidgets);
     expect(find.text('Dapatkan Hasil'), findsOneWidget);
 
-    // Tap the 'Peta' icon and trigger a frame.
-    await tester.tap(find.text('Peta'));
+    // Tap the 'Pustaka' icon and trigger a frame.
+    await tester.tap(find.text('Pustaka').last);
     await tester.pumpAndSettle();
 
-    // Verify that we are on the MapPage
-    expect(find.text('Peta Wabah'), findsWidgets);
-    expect(find.text('Penyakit Blast (88%)'), findsOneWidget);
+    // Verify that we are on the PustakaPage
+    expect(find.text('Daftar Pustaka Penyakit'), findsWidgets);
   });
 }

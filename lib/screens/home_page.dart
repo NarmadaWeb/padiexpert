@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../main.dart' show AppColors;
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final VoidCallback? onNavigateToDiagnosis;
+
+  const HomePage({super.key, this.onNavigateToDiagnosis});
 
   @override
   Widget build(BuildContext context) {
@@ -128,13 +130,16 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              _buildActionCard(
-                context,
-                title: 'Mulai Diagnosis',
-                subtitle: 'Deteksi didukung Certainty Factor',
-                icon: Icons.biotech,
-                isDark: isDark,
-                hasPrimaryArrow: true,
+              GestureDetector(
+                onTap: onNavigateToDiagnosis,
+                child: _buildActionCard(
+                  context,
+                  title: 'Mulai Diagnosis',
+                  subtitle: 'Deteksi didukung Certainty Factor',
+                  icon: Icons.biotech,
+                  isDark: isDark,
+                  hasPrimaryArrow: true,
+                ),
               ),
               const SizedBox(height: 16),
               _buildActionCard(
@@ -144,46 +149,6 @@ class HomePage extends StatelessWidget {
                 icon: Icons.wb_sunny,
                 isDark: isDark,
                 hasPrimaryArrow: false,
-              ),
-              const SizedBox(height: 24),
-
-              // Recommended
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Rekomendasi Untuk Anda',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        'Lihat semua',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.chevron_right,
-                        color: AppColors.primary,
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildRecommendationCard(isDark),
-                    const SizedBox(width: 16),
-                    _buildRecommendationCard(isDark),
-                  ],
-                ),
               ),
               const SizedBox(height: 24),
             ]),
@@ -278,71 +243,4 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendationCard(bool isDark) {
-    return Container(
-      width: 280,
-      decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800]?.withValues(alpha: 0.5) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 128,
-            width: double.infinity,
-            color: Colors.grey[300],
-            child: Image.network(
-              'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=2000&auto=format&fit=crop',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    'PENCEGAHAN PENYAKIT',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Mengendalikan Hama Wereng pada Musim Hujan',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '2 jam lalu • 5 mnt baca',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDark ? Colors.grey[400] : Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

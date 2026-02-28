@@ -95,14 +95,16 @@ class ResultPage extends StatelessWidget {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.2),
+                              color: isTopResult
+                                  ? AppColors.primary
+                                  : AppColors.primary.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
                               '${result.certaintyPercentage.toStringAsFixed(1)}%',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
+                                color: isTopResult ? Colors.black87 : AppColors.primary,
                                 fontSize: 16,
                               ),
                             ),
@@ -117,27 +119,31 @@ class ResultPage extends StatelessWidget {
                           color: isDark ? Colors.grey[400] : Colors.grey[600],
                         ),
                       ),
-                      if (isTopResult) ...[
-                        const SizedBox(height: 16),
-                        const Divider(),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Saran Penanganan:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      const SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: const [
+                          Icon(Icons.healing, size: 16, color: AppColors.primary),
+                          SizedBox(width: 8),
+                          Text(
+                            'Saran Penanganan:',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        result.disease.treatment,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDark ? Colors.grey[300] : Colors.grey[800],
+                          height: 1.5,
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          result.disease.treatment,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: isDark ? Colors.grey[300] : Colors.grey[800],
-                            height: 1.5,
-                          ),
-                        ),
-                      ]
+                      ),
                     ],
                   ),
                 );
