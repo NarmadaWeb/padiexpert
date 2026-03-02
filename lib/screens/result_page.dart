@@ -1,18 +1,49 @@
 import 'package:flutter/material.dart';
 import '../main.dart' show AppColors;
 import '../utils/certainty_factor.dart';
+import '../services/history_service.dart';
+import 'package:uuid/uuid.dart';
 
-class ResultPage extends StatelessWidget {
+class ResultPage extends StatefulWidget {
   final Map<String, double> userCfValues;
 
   const ResultPage({super.key, required this.userCfValues});
 
   @override
+  State<ResultPage> createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
+  late List<DiagnosisResult> _results;
+  bool _isSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _results = CertaintyFactorEngine.calculate(widget.userCfValues);
+    _saveHistory();
+  }
+
+  Future<void> _saveHistory() async {
+    if (_results.isNotEmpty && !_isSaved) {
+      final topResult = _results.first;
+      final historyService = HistoryService();
+
+      final history = DiagnosisHistory(
+        id: const Uuid().v4(),
+        diseaseName: topResult.disease.name,
+        percentage: topResult.certaintyPercentage,
+        date: DateTime.now(),
+      );
+
+      await historyService.saveDiagnosis(history);
+      _isSaved = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    // Calculate results using the CF Engine
-    final results = CertaintyFactorEngine.calculate(userCfValues);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +61,7 @@ class ResultPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: results.isEmpty
+      body: _results.isEmpty
           ? Center(
               child: Text(
                 'Tidak ada gejala yang dipilih atau dikenali.',
@@ -40,15 +71,10 @@ class ResultPage extends StatelessWidget {
                 ),
               ),
             )
-          : ListView.builder(
+          : ListView(
               padding: const EdgeInsets.all(16),
-              itemCount: results.length,
-              itemBuilder: (context, index) {
-                final result = results[index];
-                final isTopResult = index == 0;
-
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 16),
+              children: [
+                Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: isDark
@@ -56,10 +82,8 @@ class ResultPage extends StatelessWidget {
                         : Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: isTopResult
-                          ? AppColors.primary
-                          : AppColors.primary.withValues(alpha: 0.2),
-                      width: isTopResult ? 2 : 1,
+                      color: AppColors.primary,
+                      width: 2,
                     ),
                     boxShadow: isDark
                         ? []
@@ -74,46 +98,50 @@ class ResultPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              result.disease.name,
-                              style: TextStyle(
-                                fontSize: isTopResult ? 20 : 18,
-                                fontWeight: FontWeight.bold,
-                                color: isTopResult && !isDark
-                                    ? Colors.black87
-                                    : null,
-                              ),
-                            ),
+                      Center(
+                        child: Text(
+                          'Penyakit Terdeteksi:',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: isDark ? Colors.grey[400] : Colors.grey[600],
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: isTopResult
-                                  ? AppColors.primary
-                                  : AppColors.primary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              '${result.certaintyPercentage.toStringAsFixed(1)}%',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isTopResult ? Colors.black87 : AppColors.primary,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: Text(
+                          _results.first.disease.name,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Text(
+                            '${_results.first.certaintyPercentage.toStringAsFixed(1)}%',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                       Text(
-                        result.disease.description,
+                        _results.first.disease.description,
                         style: TextStyle(
                           fontSize: 14,
                           color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -127,9 +155,9 @@ class ResultPage extends StatelessWidget {
                           Icon(Icons.healing, size: 16, color: AppColors.primary),
                           SizedBox(width: 8),
                           Text(
-                            'Saran Penanganan:',
+                            'Cara Penanganan:',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -137,7 +165,30 @@ class ResultPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        result.disease.treatment,
+                        _results.first.disease.treatment,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDark ? Colors.grey[300] : Colors.grey[800],
+                          height: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: const [
+                          Icon(Icons.shield, size: 16, color: AppColors.primary),
+                          SizedBox(width: 8),
+                          Text(
+                            'Cara Pencegahan:',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        _results.first.disease.prevention,
                         style: TextStyle(
                           fontSize: 14,
                           color: isDark ? Colors.grey[300] : Colors.grey[800],
@@ -146,8 +197,45 @@ class ResultPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              },
+                ),
+                if (_results.length > 1) ...[
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Kemungkinan Lainnya:',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  ..._results.skip(1).map((result) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isDark ? Colors.grey[800]?.withValues(alpha: 0.3) : Colors.grey[50],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              result.disease.name,
+                              style: const TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Text(
+                            '${result.certaintyPercentage.toStringAsFixed(1)}%',
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ]
+              ],
             ),
     );
   }
