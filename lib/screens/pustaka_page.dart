@@ -102,6 +102,29 @@ class PustakaPage extends StatelessWidget {
                     height: 1.5,
                   ),
                 ),
+                const SizedBox(height: 12),
+                Row(
+                  children: const [
+                    Icon(Icons.shield, size: 16, color: AppColors.primary),
+                    SizedBox(width: 8),
+                    Text(
+                      'Cara Pencegahan:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  disease.prevention,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDark ? Colors.grey[300] : Colors.grey[800],
+                    height: 1.5,
+                  ),
+                ),
               ],
             ),
           );
