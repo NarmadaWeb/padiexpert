@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../main.dart' show AppColors;
 import '../services/history_service.dart';
 import 'package:intl/intl.dart';
+import 'weather_calendar_page.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback? onNavigateToDiagnosis;
@@ -171,8 +172,11 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Fitur Cuaca & Kalender akan segera hadir!')),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WeatherCalendarPage(),
+                    ),
                   );
                 },
                 child: _buildActionCard(

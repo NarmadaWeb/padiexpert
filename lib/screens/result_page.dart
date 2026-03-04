@@ -140,6 +140,24 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          _results.first.disease.imageUrl,
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: double.infinity,
+                              height: 200,
+                              color: Colors.grey[300],
+                              child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                       Text(
                         _results.first.disease.description,
                         style: TextStyle(
@@ -198,43 +216,6 @@ class _ResultPageState extends State<ResultPage> {
                     ],
                   ),
                 ),
-                if (_results.length > 1) ...[
-                  const SizedBox(height: 24),
-                  const Text(
-                    'Kemungkinan Lainnya:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 12),
-                  ..._results.skip(1).map((result) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: isDark ? Colors.grey[800]?.withValues(alpha: 0.3) : Colors.grey[50],
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              result.disease.name,
-                              style: const TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                          Text(
-                            '${result.certaintyPercentage.toStringAsFixed(1)}%',
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ]
               ],
             ),
     );
