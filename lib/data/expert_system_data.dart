@@ -17,6 +17,7 @@ class Disease {
   final String treatment;
   final String prevention;
   final Map<String, double> symptomWeights;
+  final String imageUrl;
 
   Disease({
     required this.id,
@@ -25,6 +26,7 @@ class Disease {
     required this.treatment,
     required this.prevention,
     required this.symptomWeights,
+    required this.imageUrl,
   });
 }
 
@@ -60,6 +62,7 @@ class ExpertSystemData {
       treatment: '1. Aplikasikan fungisida berbahan aktif trisiklazol atau benomil pada fase pembentukan anakan maksimum dan fase bunting.\n2. Segera semprotkan fungisida jika melihat gejala awal bercak belah ketupat.',
       prevention: '1. Gunakan varietas padi yang tahan terhadap blast (seperti Inpari 32 HDB, Inpari 33).\n2. Atur jarak tanam agar tidak terlalu rapat (gunakan sistem legowo).\n3. Hindari penggunaan pupuk Nitrogen (N) yang berlebihan karena akan membuat tanaman lebih rentan.',
       symptomWeights: {'g19': 0.8, 'g20': 0.9, 'g01': 0.6, 'g03': 0.4},
+      imageUrl: 'https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p02',
@@ -68,6 +71,7 @@ class ExpertSystemData {
       treatment: '1. Semprotkan bakterisida yang berbahan aktif tembaga atau asam oksolinik.\n2. Jika lahan tergenang, segera keringkan atau kurangi ketinggian air.\n3. Jangan memupuk dengan Urea saat serangan sedang parah.',
       prevention: '1. Gunakan benih yang sehat dan bersertifikat.\n2. Lakukan perlakuan benih (seed treatment) sebelum tanam.\n3. Buat sistem pengairan dan drainase yang baik agar air tidak terus-menerus menggenang.\n4. Tanam varietas tahan kresek (Inpari 32, Ciherang).',
       symptomWeights: {'g04': 0.6, 'g02': 0.7, 'g03': 0.8, 'g09': 0.9},
+      imageUrl: 'https://images.unsplash.com/photo-1588636417726-dc46d90a187a?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p03',
@@ -76,6 +80,7 @@ class ExpertSystemData {
       treatment: '1. Cabut dan musnahkan (bakar) tanaman yang sudah parah terinfeksi agar tidak menular.\n2. Segera kendalikan vektor wereng hijau dengan insektisida berbahan aktif BPMC, buprofezin, atau imidakloprid.',
       prevention: '1. Tanam padi secara serempak di seluruh kawasan.\n2. Gunakan varietas tahan wereng hijau atau tahan virus tungro (seperti Inpari 36 Lanrang).\n3. Singkirkan gulma atau sisa tanaman sebelumnya (singgang) yang bisa menjadi tempat hidup virus.\n4. Lakukan rotasi tanaman dengan palawija.',
       symptomWeights: {'g05': 0.8, 'g06': 0.7, 'g16': 0.9},
+      imageUrl: 'https://images.unsplash.com/photo-1596704153915-d91f4f46a9a7?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p04',
@@ -84,6 +89,7 @@ class ExpertSystemData {
       treatment: '1. Semprotkan fungisida yang mengandung mankozeb atau propikonazol.\n2. Berikan pupuk Kalium (K) tambahan untuk membantu tanaman pulih.',
       prevention: '1. Perbaiki tingkat kesuburan tanah dengan menambahkan bahan organik atau kompos.\n2. Lakukan pemupukan berimbang antara N, P, dan K.\n3. Jaga pengairan agar tanah tidak terlalu kering di fase pertumbuhan awal.',
       symptomWeights: {'g01': 0.8, 'g02': 0.5, 'g03': 0.6},
+      imageUrl: 'https://images.unsplash.com/photo-1592484433150-13a89e9d6d39?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p05',
@@ -92,6 +98,7 @@ class ExpertSystemData {
       treatment: '1. Kurangi air segera di lahan persawahan.\n2. Aplikasikan fungisida sistemik berbahan aktif heksakonazol atau difenokonazol pada pangkal batang.',
       prevention: '1. Terapkan pola pengairan berselang (intermittent irrigation) dengan cara mengeringkan sawah secara berkala.\n2. Jangan gunakan pupuk Urea berlebihan.\n3. Tanam varietas padi dengan batang yang keras dan kuat.',
       symptomWeights: {'g11': 0.9, 'g12': 0.8, 'g18': 0.7, 'g05': 0.4},
+      imageUrl: 'https://images.unsplash.com/photo-1597576596956-620ee6d5b0aa?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p06',
@@ -100,6 +107,7 @@ class ExpertSystemData {
       treatment: '1. Semprotkan fungisida yang efektif untuk Rhizoctonia, seperti yang berbahan aktif validamisin, heksakonazol, atau difenokonazol.\n2. Bersihkan bagian bawah tanaman jika banyak daun tua yang mati.',
       prevention: '1. Tanam padi dengan jarak tanam yang tidak terlalu rapat agar sirkulasi udara lancar (contoh: Jajar Legowo).\n2. Gunakan pupuk nitrogen secukupnya saja.\n3. Bersihkan sisa-sisa tanaman musim lalu yang terinfeksi sebelum mengolah lahan.',
       symptomWeights: {'g13': 0.9, 'g01': 0.4, 'g03': 0.5},
+      imageUrl: 'https://images.unsplash.com/photo-1568434524451-b8449cde0bce?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p07',
@@ -108,6 +116,7 @@ class ExpertSystemData {
       treatment: '1. Cabut tanaman padi yang sudah menunjukkan gejala seperti rumput, karena tidak bisa diobati dan bisa menularkan ke yang lain.\n2. Segera semprot insektisida untuk mematikan wereng coklat (pymetrozine, dinotefuran, dll).',
       prevention: '1. Kendalikan populasi wereng coklat secara preventif.\n2. Tanam varietas tahan wereng coklat (VUTW).\n3. Lakukan pengamatan rutin sejak pesemaian.\n4. Sanitasi lingkungan dari gulma dan singgang.',
       symptomWeights: {'g05': 0.7, 'g02': 0.5, 'g08': 0.6},
+      imageUrl: 'https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p08',
@@ -116,6 +125,7 @@ class ExpertSystemData {
       treatment: '1. Kendalikan populasi wereng coklat dengan insektisida yang direkomendasikan.\n2. Cabut segera tanaman yang sudah memperlihatkan gejala keriting/melintir pada daun dan musnahkan.',
       prevention: '1. Terapkan sistem tanam serempak dalam hamparan sawah.\n2. Pilih benih unggul tahan wereng coklat.\n3. Jangan menanam secara terus menerus (rotasi tanaman).',
       symptomWeights: {'g05': 0.8, 'g08': 0.9, 'g10': 0.8},
+      imageUrl: 'https://images.unsplash.com/photo-1588636417726-dc46d90a187a?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p09',
@@ -124,6 +134,7 @@ class ExpertSystemData {
       treatment: '1. Semprot tanaman menggunakan bakterisida.\n2. Kurangi tinggi genangan air di sawah untuk menurunkan tingkat kelembapan.',
       prevention: '1. Gunakan benih bersertifikat bebas bakteri.\n2. Terapkan sanitasi yang baik, bersihkan gulma yang mungkin menjadi inang.\n3. Hindari pupuk Urea terlalu banyak.',
       symptomWeights: {'g07': 0.9, 'g04': 0.7, 'g02': 0.5},
+      imageUrl: 'https://images.unsplash.com/photo-1596704153915-d91f4f46a9a7?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p10',
@@ -132,6 +143,7 @@ class ExpertSystemData {
       treatment: '1. Jika serangan baru mulai (sundep), aplikasikan insektisida sistemik berbahan aktif karbofuran atau fipronil.\n2. Pada fase generatif (beluk), pengobatan kimia sering kurang efektif karena ulat sudah di dalam batang, tapi penyemprotan bisa mencegah ngengat bertelur lagi.',
       prevention: '1. Tanam serentak agar populasi tidak terpusat.\n2. Potong jerami serendah mungkin saat panen dan bajak segera agar ulat/kepompong mati.\n3. Pasang lampu perangkap (light trap) untuk menangkap ngengat dewasa.',
       symptomWeights: {'g17': 0.9, 'g10': 0.9, 'g02': 0.4},
+      imageUrl: 'https://images.unsplash.com/photo-1592484433150-13a89e9d6d39?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p11',
@@ -140,6 +152,7 @@ class ExpertSystemData {
       treatment: '1. Cabut dan buang tanaman yang tinggi kurus abnormal.\n2. Penyemprotan saat di sawah kurang efektif, namun fungisida berbahan benomil bisa dipertimbangkan jika serangan meluas.',
       prevention: '1. Pengobatan paling efektif adalah seed treatment (perendaman benih) dengan fungisida (seperti benomil, prokloraz) sebelum disemai.\n2. Jangan gunakan benih dari tanaman yang pernah terkena bakanae.',
       symptomWeights: {'g02': 0.6, 'g03': 0.5, 'g15': 0.4},
+      imageUrl: 'https://images.unsplash.com/photo-1597576596956-620ee6d5b0aa?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p12',
@@ -148,6 +161,7 @@ class ExpertSystemData {
       treatment: '1. Jika spora belum pecah, aplikasikan fungisida pada saat stadia bunting.\n2. Buang bulir yang terserang sebelum dipanen agar spora tidak mencemari gabah sehat.',
       prevention: '1. Semprot fungisida pencegah pada 1 minggu sebelum padi malai keluar (fase bunting) dan 1 minggu sesudahnya.\n2. Pemupukan nitrogen harus diseimbangkan dengan Fosfor (P) dan Kalium (K).',
       symptomWeights: {'g10': 0.5, 'g14': 0.8},
+      imageUrl: 'https://images.unsplash.com/photo-1568434524451-b8449cde0bce?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p13',
@@ -156,6 +170,7 @@ class ExpertSystemData {
       treatment: '1. Keringkan petak sawah secara berkala (drainase) agar racun besi teroksidasi dan mengendap.\n2. Semprotkan pupuk daun kaya Zinc (Seng) atau taburkan pupuk kandang/kompos matang.',
       prevention: '1. Berikan bahan amelioran (seperti kapur dolomit atau abu sekam) sebelum tanam untuk menaikkan pH tanah.\n2. Gunakan varietas padi yang toleran terhadap keracunan besi atau tanah masam.',
       symptomWeights: {'g16': 0.8, 'g05': 0.6, 'g15': 0.7},
+      imageUrl: 'https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p14',
@@ -164,6 +179,7 @@ class ExpertSystemData {
       treatment: '1. Kurangi ketinggian air di sawah.\n2. Aplikasikan bakterisida tembaga atau antibiotik pertanian dengan dosis yang dianjurkan.',
       prevention: '1. Pastikan sanitasi benih baik.\n2. Lakukan pengendalian gulma dengan rutin karena gulma di sela tanaman bisa menaikkan kelembaban berlebih.\n3. Jangan memupuk urea terlalu tinggi di awal musim tanam.',
       symptomWeights: {'g13': 0.8, 'g09': 0.7, 'g04': 0.5},
+      imageUrl: 'https://images.unsplash.com/photo-1588636417726-dc46d90a187a?q=80&w=2070&auto=format&fit=crop',
     ),
     Disease(
       id: 'p15',
@@ -172,6 +188,7 @@ class ExpertSystemData {
       treatment: '1. Jika serangan terlihat, berikan pupuk NPK ekstra secara berimbang agar tanaman punya tenaga untuk memulihkan akar.\n2. Penggunaan nematisida butiran bisa dilakukan tapi perlu pertimbangan biaya.',
       prevention: '1. Rotasi atau pergiliran tanaman sangat penting. Jangan tanam padi terus menerus; selingi dengan palawija yang bukan inang nematoda.\n2. Pengolahan tanah (bajak) di musim kemarau dan jemur tanah akan mematikan nematoda.',
       symptomWeights: {'g05': 0.6, 'g02': 0.7, 'g15': 0.8},
+      imageUrl: 'https://images.unsplash.com/photo-1596704153915-d91f4f46a9a7?q=80&w=2070&auto=format&fit=crop',
     ),
   ];
 }
