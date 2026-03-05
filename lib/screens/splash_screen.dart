@@ -92,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Expert System for Rice Disease Diagnosis',
+                          'Sistem Pakar Diagnosis Penyakit Padi',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -121,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Initializing system...',
+                                    'Memulai sistem...',
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
@@ -180,7 +180,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'CERTAINTY FACTOR METHOD',
+                              'METODE CERTAINTY FACTOR',
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,

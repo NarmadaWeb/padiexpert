@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
                     title: 'Notifikasi',
                     isDark: isDark,
                     onTap: () {
-                      _showComingSoonSnackbar(context, 'Pengaturan Notifikasi');
+                      _showNotificationDialog(context, isDark);
                     },
                   ),
                   const SizedBox(height: 8),
@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                     title: 'Bantuan & Dukungan',
                     isDark: isDark,
                     onTap: () {
-                      _showComingSoonSnackbar(context, 'Bantuan & Dukungan');
+                      _showHelpDialog(context, isDark);
                     },
                   ),
                   const SizedBox(height: 8),
@@ -60,7 +60,7 @@ class SettingsPage extends StatelessWidget {
                     title: 'Tentang Aplikasi',
                     isDark: isDark,
                     onTap: () {
-                      _showComingSoonSnackbar(context, 'Tentang Aplikasi');
+                      _showAboutDialog(context, isDark);
                     },
                   ),
                 ],
@@ -72,43 +72,173 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showComingSoonSnackbar(BuildContext context, String title) {
+  void _showCustomSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Fitur $title akan segera hadir!')),
+      SnackBar(
+        content: Text(message, style: const TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+      ),
     );
   }
 
   void _showLanguageDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Pilih Bahasa'),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          title: const Text('Pilih Bahasa', style: TextStyle(fontWeight: FontWeight.bold)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 title: const Text('Bahasa Indonesia'),
-                leading: const Icon(Icons.language),
+                leading: const Icon(Icons.language, color: AppColors.primary),
                 onTap: () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Bahasa diubah ke Indonesia')),
-                  );
+                  _showCustomSnackbar(context, 'Bahasa diubah ke Indonesia');
                 },
               ),
               ListTile(
                 title: const Text('English'),
-                leading: const Icon(Icons.language),
+                leading: const Icon(Icons.language, color: Colors.grey),
                 onTap: () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Language changed to English')),
-                  );
+                  _showCustomSnackbar(context, 'Language changed to English');
                 },
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void _showNotificationDialog(BuildContext context, bool isDark) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            bool isNotifEnabled = true;
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+              title: const Text('Pengaturan Notifikasi', style: TextStyle(fontWeight: FontWeight.bold)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SwitchListTile(
+                    title: const Text('Izinkan Notifikasi'),
+                    subtitle: const Text('Terima pengingat harian dan pembaruan cuaca.'),
+                    value: isNotifEnabled,
+                    activeColor: AppColors.primary,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isNotifEnabled = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showHelpDialog(BuildContext context, bool isDark) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          title: const Text('Bantuan & Dukungan', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Untuk bantuan penggunaan aplikasi, Anda dapat menghubungi tim kami di:'),
+              const SizedBox(height: 12),
+              Row(
+                children: const [
+                  Icon(Icons.email, color: AppColors.primary),
+                  SizedBox(width: 8),
+                  Text('support@padiexpert.com', style: TextStyle(fontWeight: FontWeight.w600)),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: const [
+                  Icon(Icons.phone, color: AppColors.primary),
+                  SizedBox(width: 8),
+                  Text('+62 812 3456 7890', style: TextStyle(fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showAboutDialog(BuildContext context, bool isDark) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.info, color: AppColors.primary),
+              ),
+              const SizedBox(width: 12),
+              const Text('Tentang Aplikasi', style: TextStyle(fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('PadiExpert', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text('Versi 1.0.0'),
+              const SizedBox(height: 16),
+              const Text('Aplikasi Sistem Pakar untuk mendiagnosis penyakit pada tanaman padi menggunakan metode Certainty Factor.'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+            ),
+          ],
         );
       },
     );

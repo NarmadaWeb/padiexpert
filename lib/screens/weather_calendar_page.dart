@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart' show AppColors;
+import '../services/note_service.dart';
 
 class WeatherCalendarPage extends StatefulWidget {
   const WeatherCalendarPage({super.key});
@@ -19,11 +20,51 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
   bool _isLoadingWeather = true;
   String _weatherError = '';
 
+  final NoteService _noteService = NoteService();
+  final TextEditingController _noteController = TextEditingController();
+  bool _isLoadingNote = false;
+
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
     _fetchWeather();
+    _loadNoteForSelectedDay();
+  }
+
+  Future<void> _loadNoteForSelectedDay() async {
+    if (_selectedDay == null) return;
+    setState(() {
+      _isLoadingNote = true;
+    });
+    final note = await _noteService.getNoteForDate(_selectedDay!);
+    if (mounted) {
+      setState(() {
+        _noteController.text = note;
+        _isLoadingNote = false;
+      });
+    }
+  }
+
+  Future<void> _saveNote() async {
+    if (_selectedDay == null) return;
+    await _noteService.saveNoteForDate(_selectedDay!, _noteController.text);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Catatan berhasil disimpan'),
+          backgroundColor: AppColors.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchWeather() async {
@@ -106,6 +147,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
                     });
+                    _loadNoteForSelectedDay();
                   },
                   calendarStyle: CalendarStyle(
                     selectedDecoration: const BoxDecoration(
@@ -124,6 +166,50 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 24),
+              const Text(
+                'Catatan Harian',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              if (_isLoadingNote)
+                const Center(child: CircularProgressIndicator())
+              else ...[
+                TextField(
+                  controller: _noteController,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: 'Tambahkan catatan untuk tanggal ini...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                    ),
+                    filled: true,
+                    fillColor: isDark ? Colors.grey[800]?.withValues(alpha: 0.5) : Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _saveNote,
+                    icon: const Icon(Icons.save),
+                    label: const Text('Simpan Catatan', style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.black87,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
