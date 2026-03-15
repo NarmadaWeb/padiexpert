@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import '../main.dart' show AppColors;
 import '../services/note_service.dart';
 
@@ -67,33 +68,82 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
     super.dispose();
   }
 
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Layanan lokasi dinonaktifkan. Silakan aktifkan.')));
+      }
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Izin lokasi ditolak.')));
+        }
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Izin lokasi ditolak secara permanen, kami tidak dapat meminta izin.')));
+      }
+      return false;
+    }
+    return true;
+  }
+
   Future<void> _fetchWeather() async {
     setState(() {
       _isLoadingWeather = true;
       _weatherError = '';
     });
 
+    double latitude = -6.2088; // Default to Jakarta
+    double longitude = 106.8456;
+
     try {
-      // Using Open-Meteo API for a generic location (e.g., Jakarta: lat -6.2088, lon 106.8456)
-      final url = Uri.parse('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto');
+      final hasPermission = await _handleLocationPermission();
+      if (hasPermission) {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        latitude = position.latitude;
+        longitude = position.longitude;
+      }
+
+      final url = Uri.parse('https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        setState(() {
-          _weatherData = json.decode(response.body);
-          _isLoadingWeather = false;
-        });
+        if (mounted) {
+          setState(() {
+            _weatherData = json.decode(response.body);
+            _isLoadingWeather = false;
+          });
+        }
       } else {
+        if (mounted) {
+          setState(() {
+            _weatherError = 'Gagal memuat cuaca: ${response.statusCode}';
+            _isLoadingWeather = false;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
         setState(() {
-          _weatherError = 'Gagal memuat cuaca: ${response.statusCode}';
+          _weatherError = 'Terjadi kesalahan: $e';
           _isLoadingWeather = false;
         });
       }
-    } catch (e) {
-      setState(() {
-        _weatherError = 'Terjadi kesalahan: $e';
-        _isLoadingWeather = false;
-      });
     }
   }
 
