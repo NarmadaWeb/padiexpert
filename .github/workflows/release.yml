@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build and Release
@@ -44,5 +47,3 @@ jobs:
             build/app/outputs/flutter-apk/padiexpert-arm64-v8a-release.apk
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
