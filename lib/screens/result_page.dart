@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import '../main.dart' show AppColors;
 import '../utils/certainty_factor.dart';
 import '../services/history_service.dart';
@@ -31,7 +32,7 @@ class _ResultPageState extends State<ResultPage> {
 
       final history = DiagnosisHistory(
         id: const Uuid().v4(),
-        diseaseName: topResult.disease.name,
+        diseaseName: topResult.disease.nameId, // Always save in ID for consistency or use the one from context? Usually ID is safer.
         percentage: topResult.certaintyPercentage,
         date: DateTime.now(),
       );
@@ -55,16 +56,16 @@ class _ResultPageState extends State<ResultPage> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Hasil Diagnosis',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.hasilDiagnosis,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _results.isEmpty
           ? Center(
               child: Text(
-                'Tidak ada gejala yang dipilih atau dikenali.',
+                AppLocalizations.of(context)!.tidakAdaGejala,
                 style: TextStyle(
                   fontSize: 16,
                   color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -100,7 +101,7 @@ class _ResultPageState extends State<ResultPage> {
                     children: [
                       Center(
                         child: Text(
-                          'Penyakit Terdeteksi:',
+                          AppLocalizations.of(context)!.detectedDisease + ':',
                           style: TextStyle(
                             fontSize: 14,
                             color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -110,7 +111,7 @@ class _ResultPageState extends State<ResultPage> {
                       const SizedBox(height: 8),
                       Center(
                         child: Text(
-                          _results.first.disease.name,
+                          _results.first.disease.getName(context),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 22,
@@ -159,7 +160,7 @@ class _ResultPageState extends State<ResultPage> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        _results.first.disease.description,
+                        _results.first.disease.getDescription(context),
                         style: TextStyle(
                           fontSize: 14,
                           color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -169,12 +170,12 @@ class _ResultPageState extends State<ResultPage> {
                       const Divider(),
                       const SizedBox(height: 8),
                       Row(
-                        children: const [
-                          Icon(Icons.healing, size: 16, color: AppColors.primary),
-                          SizedBox(width: 8),
+                        children: [
+                          const Icon(Icons.healing, size: 16, color: AppColors.primary),
+                          const SizedBox(width: 8),
                           Text(
-                            'Cara Penanganan:',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.caraPenanganan,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -183,7 +184,7 @@ class _ResultPageState extends State<ResultPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        _results.first.disease.treatment,
+                        _results.first.disease.getTreatment(context),
                         style: TextStyle(
                           fontSize: 14,
                           color: isDark ? Colors.grey[300] : Colors.grey[800],
@@ -192,12 +193,12 @@ class _ResultPageState extends State<ResultPage> {
                       ),
                       const SizedBox(height: 16),
                       Row(
-                        children: const [
-                          Icon(Icons.shield, size: 16, color: AppColors.primary),
-                          SizedBox(width: 8),
+                        children: [
+                          const Icon(Icons.shield, size: 16, color: AppColors.primary),
+                          const SizedBox(width: 8),
                           Text(
-                            'Cara Pencegahan:',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.caraPencegahan,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -206,7 +207,7 @@ class _ResultPageState extends State<ResultPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        _results.first.disease.prevention,
+                        _results.first.disease.getPrevention(context),
                         style: TextStyle(
                           fontSize: 14,
                           color: isDark ? Colors.grey[300] : Colors.grey[800],

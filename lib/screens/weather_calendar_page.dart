@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
@@ -53,7 +54,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Catatan berhasil disimpan'),
+          content: Text(AppLocalizations.of(context)!.catatanBerhasilDisimpan),
           backgroundColor: AppColors.primary,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -75,8 +76,8 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Layanan lokasi dinonaktifkan. Silakan aktifkan.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.layananLokasiNonaktif)));
       }
       return false;
     }
@@ -86,15 +87,15 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
       if (permission == LocationPermission.denied) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Izin lokasi ditolak.')));
+              SnackBar(content: Text(AppLocalizations.of(context)!.izinLokasiDitolak)));
         }
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Izin lokasi ditolak secara permanen, kami tidak dapat meminta izin.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.izinLokasiDitolakPermanen)));
       }
       return false;
     }
@@ -132,7 +133,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
       } else {
         if (mounted) {
           setState(() {
-            _weatherError = 'Gagal memuat cuaca: ${response.statusCode}';
+            _weatherError = '${AppLocalizations.of(context)!.gagalMemuatCuaca}: ${response.statusCode}';
             _isLoadingWeather = false;
           });
         }
@@ -140,7 +141,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _weatherError = 'Terjadi kesalahan: $e';
+          _weatherError = '${AppLocalizations.of(context)!.terjadiKesalahan}: $e';
           _isLoadingWeather = false;
         });
       }
@@ -153,7 +154,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cuaca & Kalender', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.cuacaKalender, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
         elevation: 1,
       ),
@@ -165,9 +166,9 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
             children: [
               _buildWeatherCard(isDark),
               const SizedBox(height: 24),
-              const Text(
-                'Kalender Tanam',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.kalenderTanam,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Container(
@@ -217,9 +218,9 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Catatan Harian',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.catatanHarian,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               if (_isLoadingNote)
@@ -229,7 +230,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
                   controller: _noteController,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    hintText: 'Tambahkan catatan untuk tanggal ini...',
+                    hintText: AppLocalizations.of(context)!.tambahCatatan,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
@@ -248,7 +249,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
                   child: ElevatedButton.icon(
                     onPressed: _saveNote,
                     icon: const Icon(Icons.save),
-                    label: const Text('Simpan Catatan', style: TextStyle(fontWeight: FontWeight.bold)),
+                    label: Text(AppLocalizations.of(context)!.simpanCatatan, style: const TextStyle(fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.black87,
@@ -312,9 +313,9 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Cuaca Saat Ini',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.cuacaSaatIni,
+                style: const TextStyle(
                   color: Colors.black87,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -331,7 +332,7 @@ class _WeatherCalendarPageState extends State<WeatherCalendarPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Kecepatan Angin: $windSpeed km/h',
+                '${AppLocalizations.of(context)!.kecepatanAngin}: $windSpeed km/h',
                 style: const TextStyle(
                   color: Colors.black87,
                   fontSize: 14,

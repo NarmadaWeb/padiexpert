@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import '../main.dart' show AppColors;
 import '../services/history_service.dart';
 import 'package:intl/intl.dart';
@@ -47,9 +48,9 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: isDark
               ? AppColors.backgroundDark.withValues(alpha: 0.9)
               : AppColors.backgroundLight.withValues(alpha: 0.9),
-          title: const Text(
-            'Selamat Datang',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          title: Text(
+            AppLocalizations.of(context)!.welcome,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(
@@ -101,9 +102,9 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Lindungi Panen Anda',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.protectHarvest,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -121,8 +122,8 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
-                                'Dioptimalkan untuk diagnosis hari ini',
-                                style: TextStyle(
+                                AppLocalizations.of(context)!.optimizedForToday,
+                                style: const TextStyle(
                                   color: AppColors.primary,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -141,9 +142,9 @@ class _HomePageState extends State<HomePage> {
               // Quick Actions
               Row(
                 children: [
-                  const Text(
-                    'Aksi Cepat',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Text(
+                    AppLocalizations.of(context)!.quickActions,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -162,8 +163,8 @@ class _HomePageState extends State<HomePage> {
                 onTap: widget.onNavigateToDiagnosis,
                 child: _buildActionCard(
                   context,
-                  title: 'Mulai Diagnosis',
-                  subtitle: 'Deteksi didukung Certainty Factor',
+                  title: AppLocalizations.of(context)!.startDiagnosis,
+                  subtitle: AppLocalizations.of(context)!.detectionSupportedByCF,
                   icon: Icons.biotech,
                   isDark: isDark,
                   hasPrimaryArrow: true,
@@ -181,8 +182,8 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: _buildActionCard(
                   context,
-                  title: 'Cuaca & Kalender',
-                  subtitle: 'Peringatan cuaca & tanam optimal',
+                  title: AppLocalizations.of(context)!.weatherCalendar,
+                  subtitle: AppLocalizations.of(context)!.weatherAlertOptimalPlanting,
                   icon: Icons.wb_sunny,
                   isDark: isDark,
                   hasPrimaryArrow: false,
@@ -193,9 +194,9 @@ class _HomePageState extends State<HomePage> {
               // Riwayat Diagnosis
               Row(
                 children: [
-                  const Text(
-                    'Riwayat Diagnosis',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Text(
+                    AppLocalizations.of(context)!.diagnosisHistory,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -219,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Center(
                     child: Text(
-                      'Belum ada riwayat diagnosis',
+                      AppLocalizations.of(context)!.noDiagnosisHistory,
                       style: TextStyle(
                         color: isDark ? Colors.grey[400] : Colors.grey[600],
                         fontStyle: FontStyle.italic,
@@ -267,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  history.diseaseName,
+                                  history.diseaseName, // Already name string from DB
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -320,33 +321,33 @@ class _HomePageState extends State<HomePage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           backgroundColor: isDark ? Colors.grey[900] : Colors.white,
           title: Text(
-            'Detail Riwayat Diagnosis',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            AppLocalizations.of(context)!.detailRiwayatDiagnosis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Penyakit Terdeteksi:'),
+              Text(AppLocalizations.of(context)!.detectedDisease + ':'),
               Text(
                 history.diseaseName,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
-              Text('Tingkat Kepastian:'),
+              Text(AppLocalizations.of(context)!.certaintyLevel + ':'),
               Text(
                 '${history.percentage.toStringAsFixed(1)}%',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),
               ),
               const SizedBox(height: 12),
-              Text('Tanggal:'),
+              Text(AppLocalizations.of(context)!.date + ':'),
               Text(
                 DateFormat('dd MMMM yyyy, HH:mm').format(history.date),
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ],
           ),
@@ -354,8 +355,8 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Tutup',
-                style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.close,
+                style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
               ),
             ),
           ],
