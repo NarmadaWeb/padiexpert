@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:app/l10n/app_localizations.dart';
 
 import 'screens/splash_screen.dart';
 import 'screens/main_layout.dart';
+import 'services/language_service.dart';
 
-void main() {
-  runApp(const PadiExpertApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final languageService = LanguageService();
+  final initialLocale = await languageService.getLocale();
+  runApp(PadiExpertApp(initialLocale: initialLocale));
 }
 
 class AppColors {
@@ -16,8 +22,33 @@ class AppColors {
   static const textDark = Color(0xFFF1F5F9); // slate-100
 }
 
-class PadiExpertApp extends StatelessWidget {
-  const PadiExpertApp({super.key});
+class PadiExpertApp extends StatefulWidget {
+  final Locale initialLocale;
+  const PadiExpertApp({super.key, required this.initialLocale});
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _PadiExpertAppState? state = context.findAncestorStateOfType<_PadiExpertAppState>();
+    state?.setLocale(newLocale);
+  }
+
+  @override
+  State<PadiExpertApp> createState() => _PadiExpertAppState();
+}
+
+class _PadiExpertAppState extends State<PadiExpertApp> {
+  late Locale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = widget.initialLocale;
+  }
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +56,17 @@ class PadiExpertApp extends StatelessWidget {
       title: 'PadiExpert',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('id'),
+      ],
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: AppColors.primary,

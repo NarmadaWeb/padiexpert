@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import '../main.dart' show AppColors;
 
 class SplashScreen extends StatefulWidget {
@@ -84,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         ),
                         const SizedBox(height: 32),
                         Text(
-                          'PadiExpert',
+                          AppLocalizations.of(context)!.appTitle,
                           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             letterSpacing: -1,
@@ -92,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Sistem Pakar Diagnosis Penyakit Padi',
+                          AppLocalizations.of(context)!.deskripsiSingkat,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -121,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Memulai sistem...',
+                                    AppLocalizations.of(context)!.memulaiSistem,
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
@@ -180,7 +181,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'METODE CERTAINTY FACTOR',
+                                AppLocalizations.of(context)!.metodeCertaintyFactor,
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,

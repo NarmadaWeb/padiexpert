@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import '../main.dart' show AppColors;
 import '../data/expert_system_data.dart';
 
@@ -15,9 +16,9 @@ class PustakaPage extends StatelessWidget {
             ? AppColors.backgroundDark.withValues(alpha: 0.9)
             : AppColors.backgroundLight.withValues(alpha: 0.9),
         elevation: 1,
-        title: const Text(
-          'Daftar Pustaka Penyakit',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.daftarPustakaPenyakit,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -60,7 +61,7 @@ class PustakaPage extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        disease.name,
+                        disease.getName(context),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -71,7 +72,7 @@ class PustakaPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  disease.description,
+                  disease.getDescription(context),
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -81,12 +82,12 @@ class PustakaPage extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 8),
                 Row(
-                  children: const [
-                    Icon(Icons.healing, size: 16, color: AppColors.primary),
-                    SizedBox(width: 8),
+                  children: [
+                    const Icon(Icons.healing, size: 16, color: AppColors.primary),
+                    const SizedBox(width: 8),
                     Text(
-                      'Cara Penanganan:',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.caraPenanganan,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -95,7 +96,7 @@ class PustakaPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  disease.treatment,
+                  disease.getTreatment(context),
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? Colors.grey[300] : Colors.grey[800],
@@ -104,12 +105,12 @@ class PustakaPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Row(
-                  children: const [
-                    Icon(Icons.shield, size: 16, color: AppColors.primary),
-                    SizedBox(width: 8),
+                  children: [
+                    const Icon(Icons.shield, size: 16, color: AppColors.primary),
+                    const SizedBox(width: 8),
                     Text(
-                      'Cara Pencegahan:',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.caraPencegahan,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -118,7 +119,7 @@ class PustakaPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  disease.prevention,
+                  disease.getPrevention(context),
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? Colors.grey[300] : Colors.grey[800],

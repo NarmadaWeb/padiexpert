@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/l10n/app_localizations.dart';
 import '../main.dart' show AppColors;
 import '../data/expert_system_data.dart';
 import 'result_page.dart';
@@ -55,17 +56,17 @@ class _DiagnosePageState extends State<DiagnosePage> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {},
         ),
-        title: const Text(
-          'Pilihan Gejala',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.pilihanGejala,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text(
-              'Pustaka',
-              style: TextStyle(
+            child: Text(
+              AppLocalizations.of(context)!.library,
+              style: const TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
               ),
@@ -78,13 +79,13 @@ class _DiagnosePageState extends State<DiagnosePage> {
           ListView(
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 100),
             children: [
-              const Text(
-                'Diagnosa Penyakit',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.diagnosaPenyakit,
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                'Identifikasi gejala dan tentukan tingkat kepastian Anda (Certainty Factor).',
+                AppLocalizations.of(context)!.identifikasiGejala,
                 style: TextStyle(
                   fontSize: 16,
                   color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -96,8 +97,8 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: _buildSymptomCard(
                     symptom.id,
-                    symptom.title,
-                    symptom.description,
+                    symptom.getTitle(context),
+                    symptom.getDescription(context),
                     Icons.eco,
                     isDark,
                   ),
@@ -141,16 +142,16 @@ class _DiagnosePageState extends State<DiagnosePage> {
                 onPressed: _calculateResult,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'Dapatkan Hasil',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.dapatkanHasil,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.arrow_forward),
                   ],
                 ),
               ),
@@ -237,9 +238,9 @@ class _DiagnosePageState extends State<DiagnosePage> {
           ),
           if (isSymptomActive[id] == true) ...[
             const SizedBox(height: 16),
-            const Text(
-              'Tingkat Keyakinan:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            Text(
+              AppLocalizations.of(context)!.tingkatKeyakinan,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             const SizedBox(height: 8),
             SingleChildScrollView(

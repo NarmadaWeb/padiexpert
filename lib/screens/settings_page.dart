@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../main.dart' show AppColors;
+import 'package:app/l10n/app_localizations.dart';
+import '../main.dart' show AppColors, PadiExpertApp;
+import '../services/language_service.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -12,9 +14,9 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Pengaturan',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.pengaturan,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -27,7 +29,7 @@ class SettingsPage extends StatelessWidget {
                   _buildActionLink(
                     context: context,
                     icon: Icons.language,
-                    title: 'Bahasa',
+                    title: AppLocalizations.of(context)!.bahasa,
                     isDark: isDark,
                     onTap: () {
                       _showLanguageDialog(context);
@@ -37,7 +39,7 @@ class SettingsPage extends StatelessWidget {
                   _buildActionLink(
                     context: context,
                     icon: Icons.notifications,
-                    title: 'Notifikasi',
+                    title: AppLocalizations.of(context)!.notifikasi,
                     isDark: isDark,
                     onTap: () {
                       _showNotificationDialog(context, isDark);
@@ -47,7 +49,7 @@ class SettingsPage extends StatelessWidget {
                   _buildActionLink(
                     context: context,
                     icon: Icons.help_outline,
-                    title: 'Bantuan & Dukungan',
+                    title: AppLocalizations.of(context)!.bantuanDukungan,
                     isDark: isDark,
                     onTap: () {
                       _showHelpDialog(context, isDark);
@@ -57,7 +59,7 @@ class SettingsPage extends StatelessWidget {
                   _buildActionLink(
                     context: context,
                     icon: Icons.info_outline,
-                    title: 'Tentang Aplikasi',
+                    title: AppLocalizations.of(context)!.tentangAplikasi,
                     isDark: isDark,
                     onTap: () {
                       _showAboutDialog(context, isDark);
@@ -86,30 +88,40 @@ class SettingsPage extends StatelessWidget {
 
   void _showLanguageDialog(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final languageService = LanguageService();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-          title: const Text('Pilih Bahasa', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(AppLocalizations.of(context)!.pilihBahasa, style: const TextStyle(fontWeight: FontWeight.bold)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text('Bahasa Indonesia'),
+                title: Text(AppLocalizations.of(context)!.bahasaIndonesia),
                 leading: const Icon(Icons.language, color: AppColors.primary),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showCustomSnackbar(context, 'Bahasa diubah ke Indonesia');
+                onTap: () async {
+                  await languageService.saveLanguage('id');
+                  if (context.mounted) {
+                    PadiExpertApp.setLocale(context, const Locale('id'));
+                    Navigator.pop(context);
+                    _showCustomSnackbar(context, AppLocalizations.of(context)!.bahasaDiubah);
+                  }
                 },
               ),
               ListTile(
-                title: const Text('English'),
+                title: Text(AppLocalizations.of(context)!.english),
                 leading: const Icon(Icons.language, color: Colors.grey),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showCustomSnackbar(context, 'Language changed to English');
+                onTap: () async {
+                  await languageService.saveLanguage('en');
+                  if (context.mounted) {
+                    PadiExpertApp.setLocale(context, const Locale('en'));
+                    Navigator.pop(context);
+                    _showCustomSnackbar(context, AppLocalizations.of(context)!.languageChanged);
+                  }
                 },
               ),
             ],
@@ -134,8 +146,8 @@ class SettingsPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SwitchListTile(
-                    title: const Text('Izinkan Notifikasi'),
-                    subtitle: const Text('Terima pengingat harian dan pembaruan cuaca.'),
+                title: Text(AppLocalizations.of(context)!.izinkanNotifikasi),
+                subtitle: Text(AppLocalizations.of(context)!.terimaPengingat),
                     value: isNotifEnabled,
                     activeColor: AppColors.primary,
                     onChanged: (bool value) {
@@ -149,7 +161,7 @@ class SettingsPage extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                  child: Text(AppLocalizations.of(context)!.close, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
                 ),
               ],
             );
@@ -166,12 +178,12 @@ class SettingsPage extends StatelessWidget {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-          title: const Text('Bantuan & Dukungan', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(AppLocalizations.of(context)!.bantuanDukungan, style: const TextStyle(fontWeight: FontWeight.bold)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Untuk bantuan penggunaan aplikasi, Anda dapat menghubungi tim kami di:'),
+              Text(AppLocalizations.of(context)!.bantuanKontak),
               const SizedBox(height: 12),
               Row(
                 children: const [
@@ -193,7 +205,7 @@ class SettingsPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+              child: Text(AppLocalizations.of(context)!.close, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         );
@@ -219,24 +231,24 @@ class SettingsPage extends StatelessWidget {
                 child: const Icon(Icons.info, color: AppColors.primary),
               ),
               const SizedBox(width: 12),
-              const Text('Tentang Aplikasi', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(AppLocalizations.of(context)!.tentangAplikasi, style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('PadiExpert', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(AppLocalizations.of(context)!.appTitle, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              const Text('Versi 1.0.0'),
+              Text('${AppLocalizations.of(context)!.versi} 1.0.0'),
               const SizedBox(height: 16),
-              const Text('Aplikasi Sistem Pakar untuk mendiagnosis penyakit pada tanaman padi menggunakan metode Certainty Factor.'),
+              Text(AppLocalizations.of(context)!.deskripsiSingkat),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Tutup', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+              child: Text(AppLocalizations.of(context)!.close, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         );
