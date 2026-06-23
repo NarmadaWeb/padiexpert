@@ -23,7 +23,10 @@ class _MainLayoutState extends State<MainLayout> {
     HomePage(
       onNavigateToDiagnosis: () => _onItemTapped(1),
     ),
-    const DiagnosePage(),
+    DiagnosePage(
+      onBack: () => _onItemTapped(0),
+      onNavigateToLibrary: () => _onItemTapped(2),
+    ),
     const PustakaPage(),
     const SettingsPage(),
   ];

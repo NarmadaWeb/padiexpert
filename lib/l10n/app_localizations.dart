@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get notifikasi;
 
+  /// No description provided for @tidakAdaNotifikasiBaru.
+  ///
+  /// In en, this message translates to:
+  /// **'No new notifications at this time.'**
+  String get tidakAdaNotifikasiBaru;
+
   /// No description provided for @bantuanDukungan.
   ///
   /// In en, this message translates to:
