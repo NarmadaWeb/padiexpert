@@ -104,6 +104,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifikasi => 'Notifications';
 
   @override
+  String get tidakAdaNotifikasiBaru => 'No new notifications at this time.';
+
+  @override
   String get bantuanDukungan => 'Help & Support';
 
   @override

@@ -103,6 +103,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get notifikasi => 'Notifikasi';
 
   @override
+  String get tidakAdaNotifikasiBaru => 'Tidak ada notifikasi baru saat ini.';
+
+  @override
   String get bantuanDukungan => 'Bantuan & Dukungan';
 
   @override

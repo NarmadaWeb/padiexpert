@@ -5,7 +5,10 @@ import '../data/expert_system_data.dart';
 import 'result_page.dart';
 
 class DiagnosePage extends StatefulWidget {
-  const DiagnosePage({super.key});
+  final VoidCallback? onBack;
+  final VoidCallback? onNavigateToLibrary;
+
+  const DiagnosePage({super.key, this.onBack, this.onNavigateToLibrary});
 
   @override
   State<DiagnosePage> createState() => _DiagnosePageState();
@@ -54,7 +57,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {},
+          onPressed: widget.onBack ?? () => Navigator.pop(context),
         ),
         title: Text(
           AppLocalizations.of(context)!.pilihanGejala,
@@ -63,7 +66,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: widget.onNavigateToLibrary,
             child: Text(
               AppLocalizations.of(context)!.library,
               style: const TextStyle(
